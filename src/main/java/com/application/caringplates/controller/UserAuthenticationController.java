@@ -19,4 +19,9 @@ public class UserAuthenticationController {
     public ResponseEntity<String> login(){
         return new ResponseEntity<>("Current user: Divakar", HttpStatus.OK);
     }
+    @GetMapping("/user1")
+    public ResponseEntity<String> user(){
+        return new ResponseEntity<>("Current user: Divakar", HttpStatus.OK);
+    }
+
 }
