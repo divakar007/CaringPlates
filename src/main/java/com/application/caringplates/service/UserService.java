@@ -1,5 +1,6 @@
 package com.application.caringplates.service;
 
+import com.application.caringplates.dto.UserDTO;
 import com.application.caringplates.models.User;
 import com.application.caringplates.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +17,10 @@ public class UserService {
             return user;
         }
         return null;
+    }
+
+    public User saveUser(UserDTO userDTO) {
+        User user = new User(userDTO);
+        return userRepository.saveAndFlush(user);
     }
 }

@@ -1,5 +1,6 @@
 package com.application.caringplates.controller;
 
+import com.application.caringplates.dto.UserDTO;
 import com.application.caringplates.dto.loginDTO;
 import com.application.caringplates.models.User;
 import com.application.caringplates.service.UserService;
@@ -21,13 +22,20 @@ public class UserAuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody loginDTO userDTO){
-
-        return ResponseEntity.ok(userService.login(userDTO.getEmail(), userDTO.getPassword()));
+    public ResponseEntity<?> login(@RequestBody loginDTO loginDTO){
+        User user =  userService.login(loginDTO.getEmail(), loginDTO.getPassword());
+        if(user!=null){
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.badRequest().body(null);
     }
-    @GetMapping("/user1")
-    public ResponseEntity<String> user(){
-        return new ResponseEntity<>("Current user: Divakar", HttpStatus.OK);
-    }
 
+    @PostMapping("/register")
+    public ResponseEntity<User> userRegistration(@RequestBody UserDTO userDTO){
+        User user = userService.saveUser(userDTO);
+        if(user!=null){
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.badRequest().body(null);
+    }
 }
