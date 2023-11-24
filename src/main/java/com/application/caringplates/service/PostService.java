@@ -31,7 +31,7 @@ public class PostService {
     }
 
     public List<Post> fetchAllBeforePickupDateAndNotClaimed(){
-        return postRepository.findAllByBestBeforeLessThanAndClaimedIsFalse(new Date());
+        return postRepository.findAllByBestBeforeGreaterThanAndClaimedIsFalse(new Date());
     }
 
 }
