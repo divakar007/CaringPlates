@@ -2,6 +2,8 @@ package com.application.caringplates.models;
 import com.application.caringplates.dto.PostDTO;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Date;
 
 @Data
@@ -41,24 +43,13 @@ public class Post {
     @Column(name = "quantity")
     private Integer quantity;
 
-    public Long getPostID() {
-        return postID;
-    }
 
     public void setPostID(Long postID) {
         this.postID = postID;
     }
 
-    public User getUser() {
-        return user;
-    }
-
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
     }
 
     public void setRestaurant(Restaurant restaurant) {
@@ -119,7 +110,7 @@ public class Post {
     public Post(PostDTO postDTO) {
         this.imageData = postDTO.getImageData();
         this.bestBefore = postDTO.getBestBefore();
-        this.title = postDTO.getTitle();
+        this.title = postDTO.getItemName();
         this.description = postDTO.getDescription();
         this.claimed = postDTO.getClaimed();
         this.quantity = postDTO.getQuantity();
