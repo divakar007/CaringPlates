@@ -13,8 +13,8 @@ public class PostController {
 
     @Autowired
     public PostService postService;
-    @PostMapping("/create-post")
-    public ResponseEntity<Post> userRegistration(@RequestBody PostDTO postDTO){
+    @PostMapping(value = "/create-post", consumes = "multipart/form-data" )
+    public ResponseEntity<Post> userRegistration(@ModelAttribute PostDTO postDTO){
         Post post = postService.savePost(postDTO);
         if(post!=null){
             return ResponseEntity.ok(post);

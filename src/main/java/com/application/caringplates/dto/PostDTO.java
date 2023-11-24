@@ -1,23 +1,27 @@
 package com.application.caringplates.dto;
-import com.application.caringplates.models.Restaurant;
-import com.application.caringplates.models.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
 
+import com.application.caringplates.utils.ImageUtil;
+import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+@Getter
 public class PostDTO {
 
     private Long userId;
 
     private Long restaurantId;
 
-    private byte[] imageData;
+    private final byte[] imageData;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date bestBefore;
 
-    private String title;
+    private String itemName;
 
     private String description;
 
@@ -25,76 +29,41 @@ public class PostDTO {
 
     private Integer quantity;
 
-    public PostDTO( byte[] imageData, Date bestBefore, String title, String description, Boolean claimed, Integer quantity) {
-        this.imageData = imageData;
-        this.bestBefore = bestBefore;
-        this.title = title;
-        this.description = description;
-        this.claimed = claimed;
-        this.quantity = quantity;
-    }
+    public PostDTO( MultipartFile imageData, String bestBefore, String itemName, String description, Integer quantity) throws IOException, ParseException {
 
-    public Long getUserId() {
-        return userId;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+        this.imageData = ImageUtil.convertImageToByteArray(imageData);
+        this.bestBefore = dateFormat.parse(bestBefore);
+        this.itemName = itemName;
+        this.description = description;
+        this.claimed = Boolean.FALSE;
+        this.quantity = quantity;
     }
 
     public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public Long getRestaurantId() {
-        return restaurantId;
-    }
-
     public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
     }
 
-    public byte[] getImageData() {
-        return imageData;
-    }
 
-    public void setImageData(byte[] imageData) {
-        this.imageData = imageData;
-    }
-
-    public Date getBestBefore() {
-        return bestBefore;
-    }
-
-    public void setBestBefore(Date bestBefore) {
-        this.bestBefore = bestBefore;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public Boolean getClaimed() {
-        return claimed;
-    }
-
     public void setClaimed(Boolean claimed) {
         this.claimed = claimed;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
     }
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
+
 }
