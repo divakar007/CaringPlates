@@ -5,7 +5,12 @@ import com.application.caringplates.models.Restaurant;
 import com.application.caringplates.models.User;
 import com.application.caringplates.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.session.Session;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+
 @Service
 public class PostService {
     @Autowired
@@ -19,6 +24,14 @@ public class PostService {
         post.setUser(user);
        // post.setRestaurant(restaurant);
         return postRepository.saveAndFlush(post);
+    }
+
+    public List<Post> fetchAll(){
+        return postRepository.findAll();
+    }
+
+    public List<Post> fetchAllBeforePickupDateAndNotClaimed(){
+        return postRepository.findAllByBestBeforeLessThanAndClaimedIsFalse(new Date());
     }
 
 }

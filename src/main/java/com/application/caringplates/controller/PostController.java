@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/post")
@@ -13,6 +16,7 @@ public class PostController {
 
     @Autowired
     public PostService postService;
+
     @PostMapping(value = "/create-post", consumes = "multipart/form-data" )
     public ResponseEntity<Post> userRegistration(@ModelAttribute PostDTO postDTO){
         Post post = postService.savePost(postDTO);
@@ -21,4 +25,11 @@ public class PostController {
         }
         return ResponseEntity.badRequest().body(null);
     }
+
+    @GetMapping(value = "/fetch-posts")
+    public ResponseEntity<List<Post>> fetchPosts(){
+        List<Post> posts = postService.fetchAllBeforePickupDateAndNotClaimed();
+        return ResponseEntity.ok(posts);
+    }
+
 }
