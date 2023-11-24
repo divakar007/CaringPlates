@@ -15,5 +15,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAll();
 
     List<Post> findAllByBestBeforeGreaterThanAndClaimedIsFalse(Date currentTime);
-
+    List<Post> findAllByBestBeforeBeforeAndClaimedFalse(Date currentTime);
 }

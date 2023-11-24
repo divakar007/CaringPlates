@@ -115,4 +115,5 @@ public class Post {
         this.claimed = postDTO.getClaimed();
         this.quantity = postDTO.getQuantity();
     }
+
 }

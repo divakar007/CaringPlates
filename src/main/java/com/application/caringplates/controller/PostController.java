@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -28,8 +30,11 @@ public class PostController {
 
     @GetMapping(value = "/fetch-posts")
     public ResponseEntity<List<Post>> fetchPosts(){
-        List<Post> posts = postService.fetchAllBeforePickupDateAndNotClaimed();
-        return ResponseEntity.ok(posts);
+        List<Post> postsList = postService.postRepository.findAll();
+        postsList.stream()
+                .filter(post -> post.getBestBefore().after(new Date()) && !post.getClaimed())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(postsList);
     }
 
 }
