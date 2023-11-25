@@ -1,5 +1,6 @@
 package com.application.caringplates.models;
 
+import com.application.caringplates.dto.RestaurantDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -35,4 +36,80 @@ import lombok.Data;
 
         @Column(name = "zeolocation", nullable = false)
         private String zeolocation;
+
+    public Long getRestId() {
+        return restId;
     }
+
+    public void setRestId(Long restId) {
+        this.restId = restId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getLandmark() {
+        return landmark;
+    }
+
+    public void setLandmark(String landmark) {
+        this.landmark = landmark;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getZeolocation() {
+        return zeolocation;
+    }
+
+    public void setZeolocation(String zeolocation) {
+        this.zeolocation = zeolocation;
+    }
+
+    public Restaurant() {
+    }
+
+    public Restaurant(RestaurantDTO restaurantDTO) {
+        this.name = restaurantDTO.getName();
+        this.address = restaurantDTO.getAddress();
+        this.zipcode = restaurantDTO.getZipcode();
+        this.landmark = restaurantDTO.getLandmark();
+        this.phone = restaurantDTO.getPhone();
+        this.zeolocation = restaurantDTO.getZeolocation();
+    }
+}
