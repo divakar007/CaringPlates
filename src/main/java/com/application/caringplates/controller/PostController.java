@@ -37,4 +37,9 @@ public class PostController {
         return ResponseEntity.ok(postsList);
     }
 
+    @GetMapping(value = "/claim-post")
+    public ResponseEntity<String> claimPost(){
+
+        return new ResponseEntity<String>(HttpStatus.OK);
+    }
 }

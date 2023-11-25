@@ -13,7 +13,6 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     @NotNull
     List<Post> findAll();
-
     List<Post> findAllByBestBeforeGreaterThanAndClaimedIsFalse(Date currentTime);
     List<Post> findAllByBestBeforeBeforeAndClaimedFalse(Date currentTime);
 }

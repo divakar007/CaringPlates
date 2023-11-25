@@ -16,7 +16,7 @@ public class PostDTO {
 
     private Long restaurantId;
 
-    private final byte[] imageData;
+    private byte[] imageData;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date bestBefore;
@@ -40,6 +40,7 @@ public class PostDTO {
         this.claimed = Boolean.FALSE;
         this.quantity = quantity;
     }
+    public PostDTO( ){}
 
     public void setUserId(Long userId) {
         this.userId = userId;
