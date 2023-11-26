@@ -1,5 +1,7 @@
 package com.application.caringplates.dto;
 
+import com.application.caringplates.models.User;
+
 import java.util.Date;
 
 public class UserDTO {
@@ -11,16 +13,29 @@ public class UserDTO {
     private String role;
     private Date dateOfBirth;
     private String phoneNumber;
+    private RestaurantDTO restaurantDTO;
 
-    public UserDTO(String firstName, String lastName, String email, String password, String gender, String role, Date dateOfBirth, String phoneNumber) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.gender = gender;
-        this.role = role;
-        this.dateOfBirth = dateOfBirth;
-        this.phoneNumber= phoneNumber;
+    public UserDTO(User user) {
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmailId();
+        this.password = user.getPassword();
+        this.gender = user.getGender();
+        this.role = user.getRole();
+        this.dateOfBirth = user.getDateOfBirth();
+        this.phoneNumber= user.getPhoneNumber();
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public RestaurantDTO getRestaurantDTO() {
+        return restaurantDTO;
+    }
+
+    public void setRestaurantDTO(RestaurantDTO restaurantDTO) {
+        this.restaurantDTO = restaurantDTO;
     }
 
     public String getFirstName() {

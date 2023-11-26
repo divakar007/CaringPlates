@@ -9,6 +9,7 @@ public class RestaurantDTO {
     private String landmark;
     private String phone;
     private String zeolocation;
+    private Long restId;
 
     public RestaurantDTO(String name, String address, String zipcode, String landmark, String phone, String zeolocation) {
         this.name = name;
@@ -17,6 +18,9 @@ public class RestaurantDTO {
         this.landmark = landmark;
         this.phone = phone;
         this.zeolocation = zeolocation;
+    }
+    public RestaurantDTO(){
+
     }
 
     public void setName(String name) {
@@ -97,5 +101,13 @@ public class RestaurantDTO {
 
     public String getZeolocation() {
         return zeolocation;
+    }
+
+    public Long getRestId() {
+        return restId;
+    }
+
+    public void setRestId(Long restId) {
+        this.restId = restId;
     }
 }

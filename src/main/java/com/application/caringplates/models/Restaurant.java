@@ -112,4 +112,16 @@ import lombok.Data;
         this.phone = restaurantDTO.getPhone();
         this.zeolocation = restaurantDTO.getZeolocation();
     }
+    public RestaurantDTO getDTO(){
+        RestaurantDTO restaurantDTO = new RestaurantDTO();
+        restaurantDTO.setAddress(this.address);
+        restaurantDTO.setLandmark(this.landmark);
+        restaurantDTO.setName(this.name);
+        restaurantDTO.setPhone(this.phone);
+        restaurantDTO.setZeolocation(this.zeolocation);
+        restaurantDTO.setUser(this.user.getUserId());
+        restaurantDTO.setZipcode(this.zipcode);
+        restaurantDTO.setRestId(this.restId);
+        return restaurantDTO;
+    }
 }

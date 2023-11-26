@@ -40,7 +40,6 @@ public class PostDTO {
         this.claimed = Boolean.FALSE;
         this.quantity = quantity;
     }
-    public PostDTO( ){}
 
     public void setUserId(Long userId) {
         this.userId = userId;
