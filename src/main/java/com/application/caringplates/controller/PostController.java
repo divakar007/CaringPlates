@@ -3,7 +3,6 @@ import com.application.caringplates.dto.PostDTO;
 import com.application.caringplates.models.Post;
 import com.application.caringplates.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,7 @@ public class PostController {
     public PostService postService;
 
     @PostMapping(value = "/create-post", consumes = "multipart/form-data" )
-    public ResponseEntity<Post> userRegistration(@ModelAttribute PostDTO postDTO){
+    public ResponseEntity<Post> createPost(@ModelAttribute PostDTO postDTO){
         Post post = postService.savePost(postDTO);
         if(post!=null){
             return ResponseEntity.ok(post);
@@ -40,6 +39,6 @@ public class PostController {
     @GetMapping(value = "/claim-post")
     public ResponseEntity<String> claimPost(){
 
-        return new ResponseEntity<String>(HttpStatus.OK);
+        return ResponseEntity.ok().body(null);
     }
 }

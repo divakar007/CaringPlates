@@ -100,6 +100,18 @@ public class Post {
         return quantity;
     }
 
+    public Long getPostID() {
+        return postID;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
