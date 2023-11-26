@@ -2,10 +2,12 @@ package com.application.caringplates.controller;
 import com.application.caringplates.dto.PostDTO;
 import com.application.caringplates.models.Post;
 import com.application.caringplates.service.PostService;
+import com.application.caringplates.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,15 +32,15 @@ public class PostController {
     @GetMapping(value = "/fetch-posts")
     public ResponseEntity<List<Post>> fetchPosts(){
         List<Post> postsList = postService.postRepository.findAll();
-        postsList.stream()
-                .filter(post -> post.getBestBefore().after(new Date()) && !post.getClaimed())
+        List<Post> filteredPosts = postsList.stream()
+                .filter(post -> post.getBestBefore().toInstant().isAfter(Instant.now()) && !post.getClaimed())
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(postsList);
+        return ResponseEntity.ok(filteredPosts);
     }
 
-    @GetMapping(value = "/claim-post")
-    public ResponseEntity<String> claimPost(){
-
+    @GetMapping(value = "/claim-post/{userId}")
+    public ResponseEntity<String> claimPost(@ModelAttribute PostDTO postDTO, @PathVariable Long userId){
+        postService.claimPost(new UserService().findById(userId), postDTO);
         return ResponseEntity.ok().body(null);
     }
 }

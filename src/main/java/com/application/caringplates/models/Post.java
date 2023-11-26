@@ -25,7 +25,7 @@ public class Post {
     private Restaurant restaurant;
 
     @Lob
-    @Column(name = "image_data")
+    @Column(name = "image_data", columnDefinition="LONGBLOB")
     private byte[] imageData;
 
     @Column(name = "bestbefore", nullable = false)

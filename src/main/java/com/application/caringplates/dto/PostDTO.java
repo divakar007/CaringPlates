@@ -1,6 +1,7 @@
 package com.application.caringplates.dto;
 
 import com.application.caringplates.utils.ImageUtil;
+import jakarta.persistence.Lob;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,7 @@ public class PostDTO {
 
     private Long restaurantId;
 
+    @Lob
     private byte[] imageData;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -29,7 +31,9 @@ public class PostDTO {
 
     private Integer quantity;
 
-    public PostDTO( MultipartFile imageData, String bestBefore, String itemName, String description, Integer quantity) throws IOException, ParseException {
+    private Long postId;
+
+    public PostDTO( MultipartFile imageData, String bestBefore, String itemName, String description, Integer quantity, Long postId) throws IOException, ParseException {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
@@ -39,6 +43,7 @@ public class PostDTO {
         this.description = description;
         this.claimed = Boolean.FALSE;
         this.quantity = quantity;
+        this.postId = postId;
     }
 
     public void setUserId(Long userId) {
@@ -64,6 +69,10 @@ public class PostDTO {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Long getPostId() {
+        return postId;
     }
 
 }
