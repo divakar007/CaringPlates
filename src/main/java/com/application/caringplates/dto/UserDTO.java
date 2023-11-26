@@ -5,6 +5,7 @@ import com.application.caringplates.models.User;
 import java.util.Date;
 
 public class UserDTO {
+    private Long userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -16,6 +17,7 @@ public class UserDTO {
     private RestaurantDTO restaurantDTO;
 
     public UserDTO(User user) {
+        this.userId = user.getUserId();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmailId();
@@ -96,5 +98,13 @@ public class UserDTO {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
