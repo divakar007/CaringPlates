@@ -3,6 +3,7 @@ import com.application.caringplates.models.Post;
 import com.application.caringplates.dto.PostDTO;
 import com.application.caringplates.models.User;
 import com.application.caringplates.repository.PostRepository;
+import com.application.caringplates.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.SpringVersion;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,12 @@ public class PostService {
     @Autowired
     public NotificationService notificationService;
 
+    @Autowired
+    EmailService emailService;
 
     private final String USER_NOTIFICATION_MESSAGE = "Hi %s your claim is successful and it has been notified to the restaurant. Please pickup the order by %s.";
     private final String RESTAURANT_NOTIFICATION_MESSAGE = "Your order is claimed by user %s and it will be picked up shortly.";
+
     public Post savePost(PostDTO postDTO) {
         Post post = new Post(postDTO);
         User user = userService.findById(postDTO.getUserId());
@@ -48,7 +52,11 @@ public class PostService {
         String userNotificationMessage = String.format(USER_NOTIFICATION_MESSAGE,user.getFirstName(),postDTO.getBestBefore().toString());
         String restaurantNotificationMessage = String.format(RESTAURANT_NOTIFICATION_MESSAGE,user.getFirstName());
 
-        notificationService.addNotificationForUser(userNotificationMessage,user.getUserId());
-        notificationService.addNotificationForRestaurant(restaurantNotificationMessage,postDTO.getRestaurantId());
+        notificationService.createNotification(user.getUserId(),postDTO.getPostId(),userNotificationMessage);
+        notificationService.createNotification(postDTO.getRestaurantId(),postDTO.getPostId(),restaurantNotificationMessage);
+
+        emailService.sendEmail(user.getEmailId(),"Order Claimed", "Your order has been claimed");
+        User restUser = userService.findById(postDTO.getUserId());
+        emailService.sendEmail(restUser.getEmailId(), "Your order has been claimed",user.getFirstName()+" has claimed your order");
     }
 }

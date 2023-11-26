@@ -33,7 +33,7 @@ public class PostDTO {
 
     private Long postId;
 
-    public PostDTO( MultipartFile imageData, String bestBefore, String itemName, String description, Integer quantity, Long postId) throws IOException, ParseException {
+    public PostDTO( MultipartFile imageData, String bestBefore, String itemName, String description, Integer quantity, Long postId, Long restaurantId) throws IOException, ParseException {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
@@ -44,6 +44,7 @@ public class PostDTO {
         this.claimed = Boolean.FALSE;
         this.quantity = quantity;
         this.postId = postId;
+        this.restaurantId = restaurantId;
     }
 
     public void setUserId(Long userId) {
@@ -71,8 +72,11 @@ public class PostDTO {
         this.quantity = quantity;
     }
 
-    public Long getPostId() {
+    public Long setPostId() {
         return postId;
     }
 
+    public Long setRestaurantId() {
+        return restaurantId;
+    }
 }

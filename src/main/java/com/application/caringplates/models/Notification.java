@@ -14,17 +14,12 @@ public class Notification {
     @Column(name = "notificationID")
     private Long notificationID;
 
-    @ManyToOne
-    @JoinColumn(name = "userID", referencedColumnName = "userid")
-    private User user;
+    @Column(name = "userID")
+    private Long userID;
 
-    @ManyToOne
-    @JoinColumn(name = "postid", referencedColumnName = "postID")
-    private Post post;
+    @Column(name = "postID")
+    private Long postID;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurnatid", referencedColumnName = "restId")
-    private Restaurant restaurant;
 
     @Column(name = "message", columnDefinition = "TEXT")
     private String message;

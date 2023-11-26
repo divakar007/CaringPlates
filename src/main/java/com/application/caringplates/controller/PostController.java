@@ -38,7 +38,7 @@ public class PostController {
         return ResponseEntity.ok(filteredPosts);
     }
 
-    @GetMapping(value = "/claim-post/{userId}")
+    @PostMapping(value = "/claim-post/{userId}")
     public ResponseEntity<String> claimPost(@ModelAttribute PostDTO postDTO, @PathVariable Long userId){
         postService.claimPost(new UserService().findById(userId), postDTO);
         return ResponseEntity.ok().body(null);
