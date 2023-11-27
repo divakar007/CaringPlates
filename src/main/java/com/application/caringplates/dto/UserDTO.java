@@ -27,6 +27,9 @@ public class UserDTO {
         this.dateOfBirth = user.getDateOfBirth();
         this.phoneNumber= user.getPhoneNumber();
     }
+    public UserDTO(){
+
+    }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
