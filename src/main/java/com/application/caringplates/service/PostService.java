@@ -53,7 +53,7 @@ public class PostService {
         String restaurantNotificationMessage = String.format(RESTAURANT_NOTIFICATION_MESSAGE,user.getFirstName());
 
         notificationService.createNotification(user.getUserId(),postDTO.getPostId(),userNotificationMessage);
-        notificationService.createNotification(postDTO.getRestaurantId(),postDTO.getPostId(),restaurantNotificationMessage);
+        notificationService.createNotification(postDTO.getUserId(),postDTO.getPostId(),restaurantNotificationMessage);
 
         emailService.sendEmail(user.getEmailId(),"Order Claimed", "Your order has been claimed");
         User restUser = userService.findById(postDTO.getUserId());

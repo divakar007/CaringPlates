@@ -20,6 +20,9 @@ public class PostController {
     @Autowired
     public PostService postService;
 
+    @Autowired
+    public UserService userService;
+
     @PostMapping(value = "/create-post", consumes = "multipart/form-data" )
     public ResponseEntity<Post> createPost(@ModelAttribute PostDTO postDTO){
         Post post = postService.savePost(postDTO);
@@ -40,7 +43,8 @@ public class PostController {
 
     @PostMapping(value = "/claim-post/{userId}", consumes = "multipart/form-data")
     public ResponseEntity<String> claimPost(@ModelAttribute PostDTO postDTO, @PathVariable Long userId){
-        postService.claimPost(new UserService().findById(userId), postDTO);
+        postService.claimPost(userService.findById(userId), postDTO);
+
         return ResponseEntity.ok().body(null);
     }
 }
