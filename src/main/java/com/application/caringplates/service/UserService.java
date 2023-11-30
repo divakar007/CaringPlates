@@ -20,7 +20,9 @@ public class UserService {
         if(user.getPassword().equals(password)){
             UserDTO userDTO = new UserDTO(user);
             Restaurant restaurant = restaurantRepository.findRestaurantByUserIs(user);
-            userDTO.setRestaurantDTO(restaurant.getDTO());
+            if(restaurant!=null){
+                userDTO.setRestaurantDTO(restaurant.getDTO());
+            }
             return userDTO;
         }
         return null;

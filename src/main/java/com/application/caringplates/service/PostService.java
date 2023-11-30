@@ -1,6 +1,7 @@
 package com.application.caringplates.service;
 import com.application.caringplates.models.Post;
 import com.application.caringplates.dto.PostDTO;
+import com.application.caringplates.models.Restaurant;
 import com.application.caringplates.models.User;
 import com.application.caringplates.repository.PostRepository;
 import com.application.caringplates.repository.UserRepository;
@@ -17,6 +18,8 @@ public class PostService {
     public PostRepository postRepository;
     @Autowired
     public UserService userService;
+    @Autowired
+    public RestaurantService restaurantService;
 
     @Autowired
     public NotificationService notificationService;
@@ -30,9 +33,9 @@ public class PostService {
     public Post savePost(PostDTO postDTO) {
         Post post = new Post(postDTO);
         User user = userService.findById(postDTO.getUserId());
-        //Restaurant restaurant = restaurantService.findBy(postDTO.getRestaurantId());
+        Restaurant restaurant = restaurantService.fetchUserById(user);
         post.setUser(user);
-       // post.setRestaurant(restaurant);
+        post.setRestaurant(restaurant);
         return postRepository.saveAndFlush(post);
     }
 
