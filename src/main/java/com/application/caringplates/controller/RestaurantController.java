@@ -7,7 +7,6 @@ import com.application.caringplates.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 @RestController
 @CrossOrigin
 @RequestMapping("/api/restaurant")
@@ -27,7 +26,6 @@ public class RestaurantController {
         }
         return ResponseEntity.badRequest().body(null);
     }
-
     @GetMapping( value = "/fetch-profile/{userId}")
     public ResponseEntity<Restaurant> fetchProfile(@PathVariable("userId") Long userId){
         User user = userService.findById(userId);

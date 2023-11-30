@@ -54,12 +54,11 @@ public class PostService {
         postRepository.markPostAsClaimed(postDTO.getPostId());
         String userNotificationMessage = String.format(USER_NOTIFICATION_MESSAGE,user.getFirstName(),postDTO.getBestBefore().toString());
         String restaurantNotificationMessage = String.format(RESTAURANT_NOTIFICATION_MESSAGE,user.getFirstName());
-
+        User restUser = userService.findById(postDTO.getUserId());
+        Restaurant restaurant = restaurantService.fetchUserById(restUser);
         notificationService.createNotification(user.getUserId(),postDTO.getPostId(),userNotificationMessage);
         notificationService.createNotification(postDTO.getUserId(),postDTO.getPostId(),restaurantNotificationMessage);
-
-        emailService.sendEmail(user.getEmailId(),"Order Claimed", "Your order has been claimed");
-        User restUser = userService.findById(postDTO.getUserId());
+        emailService.sendEmail(user.getEmailId(),"Order Claimed", "You have successfully claimed the order. Please visit Restaurant at Address: "+restaurant.getAddress()+", "+restaurant.getLandmark()+", "+", "+restaurant.getZipcode());
         emailService.sendEmail(restUser.getEmailId(), "Your order has been claimed",user.getFirstName()+" has claimed your order");
     }
 }
