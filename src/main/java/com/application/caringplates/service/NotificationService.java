@@ -5,6 +5,8 @@ import com.application.caringplates.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class NotificationService {
@@ -20,5 +22,9 @@ public class NotificationService {
         notification.setMessage(message);
 
         notificationRepository.save(notification);
+    }
+
+    public List<Notification> fetchNotificationsById(Long userId){
+        return notificationRepository.findNotificationsByUserID(userId);
     }
 }
