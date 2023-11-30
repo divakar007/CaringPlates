@@ -2,6 +2,7 @@ package com.application.caringplates.service;
 
 import com.application.caringplates.models.Notification;
 import com.application.caringplates.repository.NotificationRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,10 @@ public class NotificationService {
 
     public List<Notification> fetchNotificationsById(Long userId){
         return notificationRepository.findNotificationsByUserID(userId);
+    }
+
+    public Integer getRewardPoints(long userId){
+        List<Notification> notificationList = notificationRepository.findAllByUserID(userId);
+        return notificationList.size()*10;
     }
 }

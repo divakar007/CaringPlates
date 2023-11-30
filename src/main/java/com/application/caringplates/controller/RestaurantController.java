@@ -29,7 +29,7 @@ public class RestaurantController {
     }
 
     @GetMapping( value = "/fetch-profile/{userId}")
-    public ResponseEntity<Restaurant> fetchProfile(@PathVariable Long userId){
+    public ResponseEntity<Restaurant> fetchProfile(@PathVariable("userId") Long userId){
         User user = userService.findById(userId);
         Restaurant restaurant = restaurantService.fetchUserById(user);
         return ResponseEntity.ok().body(restaurant);

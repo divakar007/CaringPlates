@@ -1,8 +1,10 @@
 package com.application.caringplates.controller;
 import com.application.caringplates.dto.PostDTO;
 import com.application.caringplates.models.Post;
+import com.application.caringplates.service.NotificationService;
 import com.application.caringplates.service.PostService;
 import com.application.caringplates.service.UserService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,8 @@ public class PostController {
     @Autowired
     public UserService userService;
 
+    @Autowired
+    public NotificationService notificationService;
     @PostMapping(value = "/create-post", consumes = "multipart/form-data" )
     public ResponseEntity<Post> createPost(@ModelAttribute PostDTO postDTO){
         Post post = postService.savePost(postDTO);
@@ -49,5 +53,11 @@ public class PostController {
         }catch (Exception e){
             return ResponseEntity.ok(false);
         }
+    }
+    @GetMapping("/rewards/{userId}")
+    public ResponseEntity<Integer> getRewardPoints(@PathVariable("userId") long userId){
+        Integer points = notificationService.getRewardPoints(userId);
+        return ResponseEntity.ok(points);
+
     }
 }

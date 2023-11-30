@@ -23,6 +23,7 @@ public class RestaurantService {
     }
 
     public Restaurant fetchUserById(User user){
+
         return restaurantRepository.findRestaurantByUserIs(user);
     }
 }
