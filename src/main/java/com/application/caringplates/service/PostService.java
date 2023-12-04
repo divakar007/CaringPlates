@@ -61,74 +61,83 @@ public class PostService {
         Restaurant restaurant = restaurantService.fetchUserById(restUser);
         notificationService.createNotification(user.getUserId(),postDTO.getPostId(),userNotificationMessage);
         notificationService.createNotification(postDTO.getUserId(),postDTO.getPostId(),restaurantNotificationMessage);
-        String subject = "";
-        sendOrderConfirmationEmail(user.getEmailId(),subject,postDTO.getItemName(),postDTO.getDescription(),postDTO.getQuantity(),"https://www.google.com/maps/place/Bansari+Indian+Cuisine/@38.8787513,-77.2305862,17z/data=!3m1!4b1!4m6!3m5!1s0x89b64b4df843cf2f:0x8c5720ed7a6e20f9!8m2!3d38.8787513!4d-77.2280113!16s%2Fg%2F11jcl_07b7?entry=ttu", String.valueOf( new Random().nextInt(1000000)), user.getFirstName(),user.getPhoneNumber());
-        sendOrderConfirmationEmail(restUser.getEmailId(),subject,postDTO.getItemName(),postDTO.getDescription(),postDTO.getQuantity(),"https://www.google.com/maps/place/Bansari+Indian+Cuisine/@38.8787513,-77.2305862,17z/data=!3m1!4b1!4m6!3m5!1s0x89b64b4df843cf2f:0x8c5720ed7a6e20f9!8m2!3d38.8787513!4d-77.2280113!16s%2Fg%2F11jcl_07b7?entry=ttu", String.valueOf( new Random().nextInt(1000000)), user.getFirstName(),user.getPhoneNumber());
+        String subjectUser = "Order Confirmed!";
+        sendOrderConfirmationEmail(user.getEmailId(),restUser.getEmailId(),subjectUser,postDTO.getItemName(),postDTO.getDescription(),postDTO.getQuantity(),restaurant.getAddress(), String.valueOf( new Random().nextInt(1000000)), user.getFirstName(),user.getPhoneNumber());
 
     }
 
-    public void sendOrderConfirmationEmail(String to, String subject, String productName, String description, int quantity, String restaurantAddress, String orderID, String nameOfTheUser, String phoneOfTheUser) {
+    public void sendOrderConfirmationEmail(String toUser,String toRestaurant, String subject, String productName, String description, int quantity, String restaurantAddress, String orderID, String nameOfTheUser, String phoneOfTheUser) {
         try {
+            String htmlContent = "";
             MimeMessage message = emailService.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setTo(to);
+            helper.setTo(toUser);
             helper.setSubject(subject);
 
-            String htmlContent = getHtmlContent(productName, description, quantity, restaurantAddress, orderID, nameOfTheUser);
+            htmlContent = getHtmlContent(productName, description, quantity, restaurantAddress, orderID);
             helper.setText(htmlContent, true);
 
             emailService.send(message);
+            helper.setTo(toRestaurant);
             htmlContent = getRestaurantHtmlContent(productName,description,quantity,restaurantAddress, nameOfTheUser,phoneOfTheUser);
+            helper.setText(htmlContent,true);
             emailService.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
 
-    private String getHtmlContent(String productName, String description, int quantity, String restaurantAddress, String orderID, String nameOfTheUser) {
-        String htmlContent = """
-                    <!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Order Claim Confirmation</title>
-                    </head>
-                    <body style="font-family: Arial, sans-serif;">
+    private String getHtmlContent(String productName, String description, int quantity, String restaurantAddress, String orderID) {
+        double restaurantLatitude = 38.8737785; // Replace with the actual latitude of the restaurant
+        double restaurantLongitude = -77.2254089; // Replace with the actual longitude of the restaurant
 
-                        <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+        String googleMapsStaticMapUrl = "https://maps.googleapis.com/maps/api/staticmap?center=%f,%f&zoom=15&size=400x300&markers=%f,%f&key=AIzaSyBkzbZ-oI9-ayoTAOZn8dy8RKG0virffeE";
+        googleMapsStaticMapUrl = String.format(googleMapsStaticMapUrl, restaurantLatitude, restaurantLongitude, restaurantLatitude, restaurantLongitude);
 
-                            <h2 style="color: #333;">Order Claim Confirmation</h2>
+        return """
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Order Claim Confirmation</title>
+                </head>
+                <body style="font-family: Arial, sans-serif;">
 
-                            <p>Congratulations! Your order has been successfully claimed. We appreciate your business and hope you enjoy your meal.</p>
+                    <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
 
-                            <h3>Order Details:</h3>
-                            <ul>
-                                <li><strong>Name:</strong> %s</li>
-                                <li><strong>Description:</strong> %s</li>
-                                <li><strong>Quantity:</strong> %d</li>
-                                <li><strong>Restaurant Location:</strong> %s</li>
-                            </ul>
+                        <h2 style="color: #333;">Order Claim Confirmation</h2>
 
-                            <img src="%s" alt="Restaurant Location" style="max-width: 100%; border-radius: 8px; margin-bottom: 15px;">
+                        <p>Good news! Your order has been claimed. Here are the details:</p>
 
-                            <p>Please review the details above to ensure accuracy. If you have any questions or concerns regarding your order, feel free to reach out to our customer support team at %s.</p>
+                        <h3>Order Details:</h3>
+                        <ul>
+                            <li><strong>Name:</strong> %s</li>
+                            <li><strong>Description:</strong> %s</li>
+                            <li><strong>Quantity:</strong> %d</li>
+                            <li><strong>Restaurant Location:</strong> %s</li>
+                            <li><strong>Order Id: <strong> %s </li>
+                        </ul>
+                        
+                        <p> Here is the location of the restaurant </p>
+                        
+                        <a href="https://www.google.com/maps/place/Popeyes+Louisiana+Kitchen/@38.8737785,-77.2254089,17z/data=!3m1!5s0x89b64b65a96fa751:0x34868d09037b25af!4m14!1m7!3m6!1s0x89b64ba78e63ad33:0x6d419b735f81f4fd!2sPopeyes+Louisiana+Kitchen!8m2!3d38.8737785!4d-77.2254089!16sg11j0bq0b9p!3m5!1s0x89b64ba78e63ad33:0x6d419b735f81f4fd!8m2!3d38.8737785!4d-77.2254089!16sg11j0bq0b9p?authuser=0&hl=en&entry=ttu"><img src="%s" alt="Restaurant Location" style="max-width:auto ; border-radius: 8px; margin-bottom: 15px;"/></a>                                      \s
+                        <p>Please coordinate with the pickup person for the order handover. If you have any questions or concerns, feel free to contact our support team at +1 571 233 2323.</p>
 
-                            <p>Thank you for choosing Caring Plates! We appreciate your trust in our service.</p>
+                        <p>Thank you for using Caring Plates!</p>
 
-                            <p>Best regards,<br>
-                            Caring Plates<br>
-                            phone: +1 571 591 8792</p>        
-                        </div>
+                        <p>Best regards,<br>
+                        Caring Plates<br>
+                        Phone : +1 571 591 8936</p>
 
-                    </body>
-                    </html>
-                """.formatted(productName, description, quantity, restaurantAddress, orderID);
-        return htmlContent;
+                    </div>
+
+                </body>
+                </html>""".formatted(productName, description, quantity, restaurantAddress, orderID, googleMapsStaticMapUrl);
     }
-    private String getRestaurantHtmlContent(String productName, String description, int quantity, String restaurantAddress, String supportContact, String pickupPersonName) {
+    private String getRestaurantHtmlContent(String productName, String description, int quantity, String restaurantAddress, String pickupPersonName,String pickupPersonPhone) {
         // Replace placeholders with actual values
         return """
                 <!DOCTYPE html>
@@ -173,6 +182,6 @@ public class PostService {
 
                 </body>
                 </html>
-                """.formatted(productName, description, quantity, restaurantAddress, pickupPersonName, supportContact);
+                """.formatted(productName, description, quantity, restaurantAddress, pickupPersonName, pickupPersonPhone);
     }
 }
