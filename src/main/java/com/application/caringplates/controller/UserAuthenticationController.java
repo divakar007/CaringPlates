@@ -16,11 +16,6 @@ public class UserAuthenticationController {
 
     @Autowired
     public UserService userService;
-    @GetMapping("/user")
-    public ResponseEntity<String> getCurrentUser() {
-        return new ResponseEntity<>("Current user: Divakar", HttpStatus.OK);
-    }
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody loginDTO loginDTO){
         UserDTO user =  userService.login(loginDTO.getEmail(), loginDTO.getPassword());

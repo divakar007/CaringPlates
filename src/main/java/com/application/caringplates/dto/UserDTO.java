@@ -31,6 +31,17 @@ public class UserDTO {
 
     }
 
+    public UserDTO(String firstName, String lastName, String email, String password, String gender, String role, Date dateOfBirth, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.gender = gender;
+        this.role = role;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+    }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
