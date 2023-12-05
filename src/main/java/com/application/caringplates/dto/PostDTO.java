@@ -47,6 +47,10 @@ public class PostDTO {
         this.restaurantId = restaurantId;
     }
 
+    public PostDTO() {
+
+    }
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }
